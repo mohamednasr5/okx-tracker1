@@ -5,6 +5,10 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+# ✅ تشغيل Node 24 بدل التحذير
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     name: Build Wear OS APK
@@ -23,8 +27,6 @@ jobs:
 
       - name: 🔧 Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '8.6'
 
       - name: 📦 Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -35,14 +37,15 @@ jobs:
       - name: 🔑 Make gradlew executable
         run: chmod +x gradlew
 
-      # ✅ تنظيف المشروع
+      # ✅ تنظيف المشروع (مهم جدًا)
       - name: 🧹 Clean project
         run: ./gradlew clean --no-daemon
 
       # ✅ بناء مع إظهار الخطأ الحقيقي
-      - name: 🏗️ Build Debug APK (with full logs)
+      - name: 🏗️ Build Debug APK (FULL LOGS)
         run: ./gradlew assembleDebug --stacktrace --info --no-daemon
 
+      # ✅ رفع الـ APK
       - name: 📤 Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -53,5 +56,4 @@ jobs:
       - name: 📋 Summary
         run: |
           echo "## ✅ APK جاهز للتحميل!" >> $GITHUB_STEP_SUMMARY
-          echo "**Actions → هذا الـ Run → Artifacts → OKX-Tracker-WearOS-APK**" >> $GITHUB_STEP_SUMMARY
-          echo "🛠️ تصميم وبرمجة: م. محمد حماد" >> $GITHUB_STEP_SUMMARY
+          echo "اذهب إلى Actions → هذا الـ Run → Artifacts" >> $GITHUB_STEP_SUMMARY
