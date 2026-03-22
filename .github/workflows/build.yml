@@ -35,8 +35,13 @@ jobs:
       - name: 🔑 Make gradlew executable
         run: chmod +x gradlew
 
-      - name: 🏗️ Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon
+      # ✅ تنظيف المشروع
+      - name: 🧹 Clean project
+        run: ./gradlew clean --no-daemon
+
+      # ✅ بناء مع إظهار الخطأ الحقيقي
+      - name: 🏗️ Build Debug APK (with full logs)
+        run: ./gradlew assembleDebug --stacktrace --info --no-daemon
 
       - name: 📤 Upload APK
         uses: actions/upload-artifact@v4
