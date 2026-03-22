@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#FF070b14</color>
+    <color name="accent">#FF00e5b8</color>
+    <color name="profit">#FF00d68f</color>
+    <color name="loss">#FFff3d5a</color>
+</resources>
