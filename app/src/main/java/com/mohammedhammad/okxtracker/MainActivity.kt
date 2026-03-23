@@ -1,24 +1,35 @@
 package com.mohammedhammad.okxtracker
 
-import android.app.*
-import android.content.*
-import android.os.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.*
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
-import androidx.wear.compose.foundation.lazy.*
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.material.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
@@ -271,7 +282,7 @@ fun OKXTrackerScreen(
                     if (bannerMsg.isNotEmpty()) {
                         item {
                             Box(Modifier.fillMaxWidth().background(Color(0x3300d68f), RoundedCornerShape(10.dp)).clickable { bannerMsg = "" }.padding(10.dp), contentAlignment = Alignment.Center) {
-                                Text(bannerMsg, color = OKXColors.PROFIT, fontSize = 12.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center, fontWeight = FontWeight.Bold)
+                                Text(bannerMsg, color = OKXColors.PROFIT, fontSize = 12.sp, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -290,7 +301,7 @@ fun OKXTrackerScreen(
                             }
                         }
                     }
-                    itemsIndexed(portfolio) { _, item ->
+                    items(portfolio) { item ->
                         CoinRow(item = item, egpRate = egpRate)
                     }
                     if (coins.isEmpty()) {
@@ -299,7 +310,7 @@ fun OKXTrackerScreen(
                                 Text("📭", fontSize = 32.sp)
                                 Spacer(Modifier.height(8.dp))
                                 Text("لا توجد عملات
-اضغط ⚙️ للإضافة", color = OKXColors.TEXT3, fontSize = 11.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+اضغط ⚙️ للإضافة", color = OKXColors.TEXT3, fontSize = 11.sp, textAlign = TextAlign.Center)
                             }
                         }
                     }
@@ -408,7 +419,7 @@ fun SettingsScreen(
         contentPadding = PaddingValues(top = 32.dp, bottom = 24.dp, start = 6.dp, end = 6.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        item { Text("⚙️ الإعدادات", color = OKXColors.ACCENT, fontSize = 14.sp, fontWeight = FontWeight.Black, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center) }
+        item { Text("⚙️ الإعدادات", color = OKXColors.ACCENT, fontSize = 14.sp, fontWeight = FontWeight.Black, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) }
         item {
             SettingCard(label = "💱 سعر الدولار (جنيه)") {
                 BasicTextField(
@@ -462,7 +473,7 @@ fun SettingsScreen(
 @Composable
 fun EditCoinScreen(symbol: String, fQty: String, onQtyChange: (String) -> Unit, fAvg: String, onAvgChange: (String) -> Unit, error: String, onSave: () -> Unit, onDelete: () -> Unit, onCancel: () -> Unit) {
     ScalingLazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(top = 32.dp, bottom = 24.dp, start = 6.dp, end = 6.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        item { Text("✏️ تعديل $symbol", color = OKXColors.ACCENT, fontSize = 14.sp, fontWeight = FontWeight.Black, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center) }
+        item { Text("✏️ تعديل $symbol", color = OKXColors.ACCENT, fontSize = 14.sp, fontWeight = FontWeight.Black, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) }
         item {
             Column(Modifier.fillMaxWidth().background(OKXColors.CARD, RoundedCornerShape(12.dp)).padding(10.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 BasicTextField(value = fQty, onValueChange = onQtyChange, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth().background(OKXColors.CARD2, RoundedCornerShape(4.dp)).padding(8.dp), textStyle = TextStyle(color = OKXColors.TEXT))
