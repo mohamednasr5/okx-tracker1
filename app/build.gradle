@@ -11,7 +11,6 @@ android {
         targetSdk 34
         versionCode 1
         versionName "2.0"
-        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -35,7 +34,7 @@ android {
         buildConfig true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.14'
+        kotlinCompilerExtensionVersion '1.5.13'
     }
     packaging {
         resources {
@@ -71,6 +70,4 @@ dependencies {
     implementation 'org.json:json:20240303'
     // WorkManager
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
-    // Multidex
-    implementation 'androidx.multidex:multidex:2.0.1'
 }
